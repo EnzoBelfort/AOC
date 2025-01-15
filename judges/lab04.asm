@@ -4,6 +4,7 @@ str1: .asciiz "Digite a fita simples: \n"
 str2: .asciiz "Cadeia de caracteres invalida! \n"
 str3: .asciiz "Nao eh possivel comecar a traduzir ! \n"
 str4: .asciiz "Traducao incompleta!"
+str5: .asciiz " "
 .globl main
 .text
 main:
@@ -134,6 +135,72 @@ codon_fim_invalido:
     j exit
 
 transcrever:
+    la $s0, fitaDNA      # Endereço base da string
+    li $t0, 0
+
+loop:
+    beq $t0, 3, novo_codon
+
+    lb $t1, ($s0)
+
+    beq $t1, 10, exit    # \n
+    beq $t1, 0, exit     # \0
+
+
+    beq $t1, 'A', base_A 
+    beq $t1, 'T', base_T
+    beq $t1, 'C', base_C
+    beq $t1, 'G', base_G
+
+
+base_A:
+    li $v0, 11      # Código da chamada de sistema para imprimir um caractere (11 é para print_char)
+    li $a0, 85      # Carregar o código ASCII de 'U' (85) no registrador $a0
+    syscall         # Chamada de sistema (imprime o caractere no console)
+    
+    addi $t0, $t0, 1
+    addi $s0, $s0, 1
+
+    j loop
+
+base_T:
+    li $v0, 11      # Código da chamada de sistema para imprimir um caractere (11 é para print_char)
+    li $a0, 65      # Carregar o código ASCII de 'A' (65) no registrador $a0
+    syscall         # Chamada de sistema (imprime o caractere no console)
+    
+    addi $t0, $t0, 1
+    addi $s0, $s0, 1
+
+    j loop
+
+base_C:
+    li $v0, 11      # Código da chamada de sistema para imprimir um caractere (11 é para print_char)
+    li $a0, 71      # Carregar o código ASCII de 'G' (71) no registrador $a0
+    syscall         # Chamada de sistema (imprime o caractere no console)
+    
+    addi $t0, $t0, 1
+    addi $s0, $s0, 1
+
+    j loop
+
+base_G:
+    li $v0, 11      # Código da chamada de sistema para imprimir um caractere (11 é para print_char)
+    li $a0, 67      # Carregar o código ASCII de 'C' (67) no registrador $a0
+    syscall         # Chamada de sistema (imprime o caractere no console)
+    
+    addi $t0, $t0, 1
+    addi $s0, $s0, 1
+
+    j loop
+
+novo_codon:
+    li $t0, 0
+
+    li $v0, 4
+    la $a0, str5
+    syscall
+
+    j loop
 
 exit:
     # Termina o programa
