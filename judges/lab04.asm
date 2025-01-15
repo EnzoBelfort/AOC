@@ -22,6 +22,8 @@ main:
     la $s0, fitaDNA      # Endereço base da string
     li $s1, 0           # Contador de caracteres
 
+
+    li $t1, -1          #contagem de caracteres na string (indice final = n - 1) 
 validar_loop:
     # Carrega caractere atual
     lb $t0, ($s0)
@@ -29,6 +31,8 @@ validar_loop:
     # Verifica se chegou ao fim da string (\n ou \0)
     beq $t0, 10, fim_validacao    # \n
     beq $t0, 0, fim_validacao     # \0
+
+    addi $t1, $t1, 1                        # contagem (t1 = ultimo indice do conjunto de bases)
     
     # Verifica se é um caractere válido (A, T, C, G)
     beq $t0, 'A', char_valido
@@ -50,15 +54,38 @@ char_valido:
 
 fim_validacao:
 
+    li $t0, 0
 checar_codon_inicio:
-    lb $t0, ($s0)
-    addi $s0, $s0, 1    
-    lb $t1, ($s0)
-    addi $s0, $s0, 1    
-    lb $t2, ($s0)
-    bne $t0, 'T', codon_inicio_invalido
-    bne $t1, 'A', codon_inicio_invalido
-    bne $t2, 'C', codon_inicio_invalido
+    la $t2, fitaDNA          # Carrega o endereço base da fita DNA
+    add $t2, $t2, $t0        # Avança para a posição atual
+    lb $t3, 0($t2)           # Carrega o primeiro caractere do códon
+    
+    addi $t0, $t0, 1         # Incrementa o índice
+    lb $t4, 1($t2)           # Carrega o segundo caractere do códon
+    
+    addi $t0, $t0, 1         # Incrementa o índice
+    lb $t5, 2($t2)           # Carrega o terceiro caractere do códon
+
+    # ----------------------------------------------------------------- #
+    # # Impressões para debug (opcional)
+    # li $v0, 11               # Syscall para imprimir caractere
+    # move $a0, $t3            # Move o primeiro caractere para impressão
+    # syscall
+    
+    # li $v0, 11               # Syscall para imprimir caractere
+    # move $a0, $t4            # Move o segundo caractere para impressão
+    # syscall
+    
+    # li $v0, 11               # Syscall para imprimir caractere
+    # move $a0, $t5            # Move o terceiro caractere para impressão
+    # syscall
+    # ----------------------------------------------------------------- #
+    
+    # Verifica se o códon é "TAC"
+    bne $t3, 'T', codon_inicio_invalido    # Se primeiro caractere não é 'T', códon inválido
+    bne $t4, 'A', codon_inicio_invalido    # Se segundo caractere não é 'A', códon inválido
+    bne $t5, 'C', codon_inicio_invalido    # Se terceiro caractere não é 'C', códon inválido
+    j checar_codon_fim                     # Se chegou aqui, códon é válido
 
 
 codon_inicio_invalido: 
@@ -68,6 +95,45 @@ codon_inicio_invalido:
     j exit
 
 
+checar_codon_fim:
+    la $s0, fitaDNA
+    add $s0, $s0, $t1               # vai para o ultimo indice
+
+    lb $t0, ($s0)                   # ultima base da fita
+
+    addi $s0, $s0, -1
+    lb $t1, ($s0)                  # penultima base da fita
+
+    addi $s0, $s0, -1
+    lb $t2, ($s0)                  # ante-penultima base da fita
+
+    bne $t2, 'A', codon_fim_invalido
+    beq $t1, 'T', AT_
+    beq $t1, 'C', AC_
+
+    j codon_fim_invalido
+
+
+AT_:
+    beq $t0, 'G', codon_fim_invalido
+    beq $t0, 'A', codon_fim_invalido
+    
+    j transcrever
+
+AC_:
+    beq $t0, 'G', codon_fim_invalido
+    beq $t0, 'A', codon_fim_invalido
+    beq $t0, 'C', codon_fim_invalido
+    
+    j transcrever
+
+codon_fim_invalido:
+    li $v0, 4
+    la $a0, str4
+    syscall
+    j exit
+
+transcrever:
 
 exit:
     # Termina o programa
