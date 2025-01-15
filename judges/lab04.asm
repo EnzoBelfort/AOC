@@ -86,7 +86,7 @@ checar_codon_inicio:
     bne $t3, 'T', codon_inicio_invalido    # Se primeiro caractere não é 'T', códon inválido
     bne $t4, 'A', codon_inicio_invalido    # Se segundo caractere não é 'A', códon inválido
     bne $t5, 'C', codon_inicio_invalido    # Se terceiro caractere não é 'C', códon inválido
-    j checar_codon_fim                     # Se chegou aqui, códon é válido
+    j loop_codon_parada                    # Se chegou aqui, códon é válido
 
 
 codon_inicio_invalido: 
@@ -95,44 +95,60 @@ codon_inicio_invalido:
     syscall
     j exit
 
+loop_codon_parada:
+    la $s0, fitaDNA      # Endereço base da string
+    li $t0, 0
 
-checar_codon_fim:
-    la $s0, fitaDNA
-    add $s0, $s0, $t1               # vai para o ultimo indice
+loop2:
+    beq $t0, 3, checar_codon_parada
 
-    lb $t0, ($s0)                   # ultima base da fita
+    lb $t1, ($s0)
+
+    beq $t1, 10, fim_checagem    # \n
+    beq $t1, 0, fim_checagem     # \0
+
+    addi $t0, $t0, 1
+    addi $s0, $s0, 1
+
+    j loop2
+
+checar_codon_parada:
+    addi $s0, $s0, -1
+    lb $t2, ($s0)                   # ultima base do codon
 
     addi $s0, $s0, -1
-    lb $t1, ($s0)                  # penultima base da fita
+    lb $t3, ($s0)                  # penultima base do codon
 
     addi $s0, $s0, -1
-    lb $t2, ($s0)                  # ante-penultima base da fita
+    lb $t4, ($s0)                  # ante-penultima base do codon
 
-    bne $t2, 'A', codon_fim_invalido
-    beq $t1, 'T', AT_
-    beq $t1, 'C', AC_
+    bne $t4, 'A', codon_fim_invalido
+    beq $t3, 'T', verificar_AT
+    beq $t3, 'C', verificar_AC
 
     j codon_fim_invalido
 
 
-AT_:
-    beq $t0, 'G', codon_fim_invalido
-    beq $t0, 'A', codon_fim_invalido
-    
-    j transcrever
+verificar_AT:
+    beq $t2, 'T', transcrever    # ATT é válido
+    beq $t2, 'C', transcrever    # ATC é válido
+    j codon_fim_invalido
 
-AC_:
-    beq $t0, 'G', codon_fim_invalido
-    beq $t0, 'A', codon_fim_invalido
-    beq $t0, 'C', codon_fim_invalido
-    
-    j transcrever
+verificar_AC:
+    beq $t2, 'T', transcrever    # ACT é válido
+    j codon_fim_invalido
 
-codon_fim_invalido:
+codon_fim_invalido:             # checa prox codon
+    li $t0, 0
+    j loop2
+
+fim_checagem:                   # não achou codon de parada
     li $v0, 4
     la $a0, str4
     syscall
+
     j exit
+
 
 transcrever:
     la $s0, fitaDNA      # Endereço base da string
