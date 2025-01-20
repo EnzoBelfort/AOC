@@ -9,8 +9,11 @@ str4: .asciiz "Digite 1 para informar a amplitude máxima e a distância do epic
 str5: .asciiz "Digite 2 para informar a magnitude do terremoto ja na escala Richter\n"
 str6: .asciiz "Digite 3 para sair do simulador\n\n"
 str7: .asciiz "Escolha uma opção do menu: "
-str8: .asciiz "Valor inválido! Digite 1, 2 ou 3 para acessar alguma função do simulador\n"
-
+str8: .asciiz "Valor inválido! Digite 1, 2 ou 3 para acessar alguma função do simulador.\n"
+str9: .asciiz "Digite o valor"
+str10: .asciiz "Digite o valor"
+str11: .asciiz "Digite a magnitude do terromoto com uma casa decimal: "
+newline: .asciiz "\n"
 
 .globl main
 .text
@@ -49,12 +52,13 @@ while:
     syscall
     move $t0, $v0                                        #t0 = controle do menu do simulador
 
-    beq $t0, 3, exit                                     #t0 = 3: sai do simulador e volta para o menu principal
-    beq $t0, 1, calculadora_Richter                      #t0 = 1: calcula Escala Richter a partir da distancia e amplitude
-    beq $t0, 2, simulador_pela_Richter                   #t0 = 2: ja vai direto para a previsao de tsunamis
-
     blt $t0, 1, valor_invalido                           #t0 < 1: valor invalido   
     bgt $t0, 3, valor_invalido                           #t0 > 3: valor invalido
+
+    beq $t0, 1, calculadora_Richter                      #t0 = 1: calcula Escala Richter a partir da distancia e amplitude
+    beq $t0, 2, simulador_pela_Richter                   #t0 = 2: ja vai direto para a previsao de tsunamis
+    beq $t0, 3, sair_simulador                           #t0 = 3: sai do simulador e volta para o menu principal
+
 
 
 valor_invalido:
@@ -62,4 +66,30 @@ valor_invalido:
     la $a0, str8
     syscall
 
-    j while
+    j while                                             #volta para o while 
+
+calculadora_Richter:
+
+
+
+
+
+
+
+
+
+
+simulador_pela_Richter:
+    li $v0, 4
+    la $a0, str11
+    syscall
+
+    li $v0, 6                           # Syscall para ler float
+    syscall                             # reg f0 = magnitude M
+
+    # jump para a parte que calcula a previsão de ocorrencia de tsunami baseado na magnitude da escala Richter
+
+
+
+sair_simulador:
+# imprime o menu principal dnv e da um jump para o loop do menu principal
