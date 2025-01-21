@@ -1,7 +1,7 @@
 .data
-titulo: .asciiz "\n╔════════════════════════════════════════════════════════╗\n║     SISTEMA DE ANÁLISE DE TERREMOTOS E TSUNAMIS      ║\n╚════════════════════════════════════════════════════════╝\n\n"
+titulo: .asciiz "\n╔════════════════════════════════════════════════════════╗\n║     SISTEMA DE ANÁLISE DE TERREMOTOS E TSUNAMIS         ║\n╚════════════════════════════════════════════════════════╝\n\n"
 descricao: .asciiz "Este sistema permite:\n1. Calcular a magnitude Richter (M) a partir de dados sísmicos da amplitude máxima do movimento do solo (A) e da distância do epicentro em relação ao sismógrafo (d)\n2. Analisar o risco de tsunamis com base na magnitude M, informada diretamente ou calculada pelo programa\n\n"
-menu_header: .asciiz "╭──────────── MENU DE OPÇÕES ────────────╮\n"
+menu_header: .asciiz "╭──────────── MENU DE OPÇÕES ─────────────╮\n"
 opcao1: .asciiz "│  [1] Calcular Magnitude Richter         │\n"
 opcao2: .asciiz "│  [2] Análise Direta (Magnitude M)       │\n"
 opcao3: .asciiz "│  [3] Sair do Sistema                    │\n"
