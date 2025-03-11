@@ -1,0 +1,8 @@
+time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource
+"2025-02-05T08:07:09.773Z,61.3605,-150.7112,5.4,4.3,ml,,,,4.95,ak,ak0251no5hd4,2025-02-08T07:21:56.743Z,22 km SSW of Susitna - Alaska,earthquake,,0.2,,,reviewed,ak,ak"
+"2025-01-30T03:26:38.932Z,29.078,-97.845,3.6865,4.5,ml,31,89,0.1,0.3,tx,tx2025cbgl,2025-02-08T18:42:12.277Z,19 km ENE of Falls City - Texas,earthquake,1.1567225222368,2.2644972555133,0.2,26,reviewed,tx,tx"
+"2025-01-27T15:22:56.847Z,43.0657,-70.5707,10.646,3.8,mwr,59,106,0.854,0.62,us,us6000pmk3,2025-02-08T15:33:03.671Z,9 km SE of York Harbor - Maine,earthquake,1.95,4.496,0.047,43,reviewed,us,us"
+"2025-01-20T16:17:26.768Z,23.1678,120.5468,16,6,mww,151,29,0.152,0.65,us,us6000pl8h,2025-02-03T09:24:39.265Z,9 km ENE of Yujing - Taiwan,earthquake,4.72,1.721,0.044,50,reviewed,us,us"
+"2025-01-14T22:28:51.880Z,37.707,-77.605833333333,0.12,2.77,md,12,70,0.3351,0.33,se,se60502898,2025-01-25T13:11:00.439Z,1 km NNE of Wyndham - Virginia,earthquake,0.62,1.65,0.080619434625133,9,reviewed,se,se"
+"2025-01-13T12:19:32.300Z,31.8525,131.53,39,6.8,mww,151,18,0.98,0.99,us,us6000pjny,2025-02-04T14:37:52.023Z,12 km ESE of Miyazaki - Japan,earthquake,6,1.889,0.033,87,reviewed,us,us"
+"2025-01-12T08:32:50.219Z,18.5928,-103.2404,39,6.2,mww,124,48,2.173,1.22,us,us6000pjig,2025-01-31T08:18:43.913Z,22 km SSW of Coalcoman de Vazquez Pallares - Mexico,earthquake,8.79,1.861,0.032,96,reviewed,us,us"
