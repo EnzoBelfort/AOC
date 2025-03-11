@@ -6,4 +6,4 @@ O projeto consiste em um sistema que centralize informações e ferramentas aces
 É possível listar os últimos sismos registrados e todas a informações disponíveis sobre eles, simular eventos sísmicos (com o cálculo da escala Richter) e a possibilidade de ocorrer um tsunami, calcula fazer um relato de experiência, ler sobre medidas de precaução e sobrevivência e, por último, se informar sobre como funciona o sistema.
 
 ### Como rodar o programa no QtSpim
-Para que o programa funcione, o `estatisticas.txt` e a planilha `significant_month.csv` devem estar contidos no mesmo diretório onde o programa (QtSpim) está instalado. É possível que problemas de escrita em arquivo apareçam caso o acesso ao diretório tenha restrições.
+Para que o programa funcione, o arquivo `estatisticas.txt` e a planilha `significant_month.csv` devem estar contidos no mesmo diretório onde o programa (QtSpim) está instalado. É possível que problemas de escrita em arquivo apareçam caso o acesso ao diretório tenha restrições.
